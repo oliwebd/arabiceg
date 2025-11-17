@@ -1,0 +1,27 @@
+{{ define "main" }}
+<div class="container-fluid" style="max-width: 1200px; padding: 0 1.5rem;">
+  <div class="glass-card my-4 rounded px-4 pb-4">
+    <div class="theme-head fw-bold fs-4 border-bottom py-2 mb-2 d-flex justify-content-between align-items-center">
+      <div>
+{{ if .Params.icon }}
+  <i class="bi {{ .Params.icon }} me-2"></i>
+{{ else }}
+  <i class="bi bi-info-circle me-2"></i>
+{{ end }}
+{{ .Title }}
+      </div>
+      <select id="languageSelect" class="form-select form-select-sm w-auto" title="Select Language">
+        <option value="english">English 🇬🇧</option>
+        <option value="bangla">বাংলা 🇧🇩</option>
+        <option value="hindi">हिन्दी 🇮🇳</option>
+        <option value="urdu">اردو 🇵🇰</option>
+      </select>
+    </div>
+
+    <div class="card-body">
+      {{ .Content }}
+    </div>
+  </div>
+</div>
+{{ end }}
+

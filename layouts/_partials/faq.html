@@ -1,0 +1,31 @@
+<section class="glass-card p-4 mb-5">
+    <h2 class="fw-bold fs-4 mb-4">
+        <i class="bi bi-question-circle me-2 text-primary"></i>FAQ
+    </h2>
+    <div class="accordion modern-accordion" id="faqAccordion">
+        {{ $faqs := slice
+            (dict "id" "collapse1" "question" "What is ArabicEG.com?" "answer" "ArabicEG.com is a Progressive Web App (PWA) that helps you learn Gulf (Khaleeji) Arabic with simplified phrases, meanings, and transliterations in English, Bangla, Hindi, and Urdu.")
+            (dict "id" "collapse2" "question" "Is ArabicEG.com free to use?" "answer" "Yes! It's 100% free and always will be. No login or subscription needed.")
+            (dict "id" "collapse3" "question" "Can I use this app offline?" "answer" "Yes! This is a Progressive Web App (PWA) that works offline once you've visited it online. You can install it on your device for a native app-like experience.")
+            (dict "id" "collapse4" "question" "Which dialect of Arabic does it teach?" "answer" "ArabicEG focuses on Neutral Gulf Arabic (Khaleeji), especially Saudi-style phrases that are commonly used across the Gulf region. It avoids old-fashioned or overly formal Arabic.")
+            (dict "id" "collapse5" "question" "Do I need to create an account?" "answer" "No account is required. You can use all features freely without signing up.")
+            (dict "id" "collapse6" "question" "How do language preferences work?" "answer" "Your selected language (English, Bangla, Hindi, or Urdu) is saved in your browser’s local storage so you always see the app in your preferred language.")
+            (dict "id" "collapse7" "question" "Can I suggest new phrases or corrections?" "answer" "Yes! You can suggest phrases or report mistakes via our contact page. We review and update regularly to improve accuracy and usefulness.")
+            (dict "id" "collapse8" "question" "Why are there no audio pronunciations yet?" "answer" "We are actively working on adding audio pronunciations in a real Gulf dialect. This feature will be added as soon as the recordings are finalized and integrated.")
+            (dict "id" "collapse9" "question" "What devices can I use ArabicEG on?" "answer" "ArabicEG works on all modern devices: Android, iOS, Windows, and macOS. Since it’s a PWA, you can add it to your home screen just like a native app.")
+            (dict "id" "collapse10" "question" "Do you collect personal data?" "answer" "No. We don’t require names, emails, or logins. Only your preferences (like selected language and bookmarks) are saved locally on your device. Check our Privacy Policy for details.")
+        }}
+        {{ range $faqs }}
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#{{ .id }}">
+                    {{ .question }}
+                </button>
+            </h2>
+            <div id="{{ .id }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">{{ .answer }}</div>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</section>

@@ -1,0 +1,16 @@
+<nav class="modern-sidebar-nav">
+    <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+            <a href="/" class="sidebar-nav-link {{ if .IsHome }}active{{ end }}">
+                <i class="bi bi-house-door"></i> Home
+            </a>
+        </li>
+        {{ range .Site.Menus.main }}
+        <li class="sidebar-nav-item">
+            <a href="{{ .URL | relURL }}" class="sidebar-nav-link {{ if $.IsMenuCurrent "main" . }}active{{ end }}">
+                <i class="{{ .Params.icon | default "bi-link" }}"></i> {{ .Name }}
+            </a>
+        </li>
+        {{ end }}
+    </ul>
+</nav>

@@ -1,0 +1,30 @@
+<header class="modern-header">
+    <div class="header-content">
+        {{/* Menu Button */}}
+        <button class="menu-btn d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+            <i class="bi bi-list fs-5"></i>
+        </button>
+        
+        <a href="/" class="logo text-decoration-none">
+            ArabicEG<small>.com</small>
+        </a>
+
+        <div class="d-flex gap-2">
+            {{/* Theme Toggle Button */}}
+            <button class="theme-btn" id="themeToggle">
+                <i class="bi bi-moon fs-5"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+{{/* Mobile Offcanvas Sidebar */}}
+<div class="offcanvas offcanvas-start modern-sidebar" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title footer-brand" id="offcanvasSidebarLabel">ArabicEG.com</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    {{ partial "sidebar-content.html" . }}
+  </div>
+</div>

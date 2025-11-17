@@ -1,0 +1,86 @@
+{{ define "main" }}
+<!-- Hero Search Section -->
+<section class="hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">Master Arabic Phrases</h1>
+        <p class="hero-subtitle">Learn Saudi Khaleeji dialect with instant translations</p>
+
+        <div class="search-wrapper">
+            <i class="bi bi-search search-icon"></i>
+            <input id="searchBox" class="search-input" type="search" placeholder="Search Arabic, English, Bangla, Hindi..." aria-label="Search phrases">
+        </div>
+
+        <div class="lang-toggle">
+            <input type="radio" class="d-none" name="lang" id="lang-english" value="english" checked>
+            <label class="lang-btn" for="lang-english">English</label>
+
+            <input type="radio" class="d-none" name="lang" id="lang-bangla" value="bangla">
+            <label class="lang-btn" for="lang-bangla">বাংলা</label>
+
+            <input type="radio" class="d-none" name="lang" id="lang-hindi" value="hindi">
+            <label class="lang-btn" for="lang-hindi">हिंदी</label>
+
+            <input type="radio" class="d-none" name="lang" id="lang-urdu" value="urdu">
+            <label class="lang-btn" for="lang-urdu">اردو</label>
+        </div>
+    </div>
+</section>
+
+<main class="container-fluid" style="max-width: 1200px; padding: 0 1.5rem;">
+    <!-- Search Results -->
+    <section id="results-section" class="my-4">
+        <div id="results" class="row g-3"></div>
+        <div id="spinner" class="text-center my-5" style="display: none;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <button id="loadMoreBtn" class="btn btn-outline-primary w-100 rounded-3" style="display: none;">Load More</button>
+        </div>
+    </section>
+
+    <!-- Recent Searches -->
+    <section class="my-4">
+        <div id="recent-list" class="glass-card p-4 mb-4" style="display: none;">
+            <h6 class="fw-bold mb-3">Recent Searches</h6>
+            <div id="recent-ul" class="d-flex flex-wrap gap-2"></div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="glass-card p-4 mb-4">
+        <h2 class="fw-bold fs-4 mb-4">
+            <i class="bi bi-grid-3x3-gap me-2 text-primary"></i>Browse by Category
+        </h2>
+        <div class="row g-3">
+            {{/* Categories */}}
+            {{ $categories := slice
+                (dict "tag" "question" "emoji" "❓" "text" "Questions")
+                (dict "tag" "greeting" "emoji" "👋" "text" "Greetings")
+                (dict "tag" "travel" "emoji" "✈️" "text" "Travel")
+                (dict "tag" "food" "emoji" "🍽️" "text" "Food")
+                (dict "tag" "work" "emoji" "💼" "text" "Work")
+                (dict "tag" "family" "emoji" "👨‍👩‍👧‍👦" "text" "Family")
+                (dict "tag" "shopping" "emoji" "🛍️" "text" "Shopping")
+                (dict "tag" "emergency" "emoji" "🚨" "text" "Emergency")
+                (dict "tag" "daily" "emoji" "📅" "text" "Daily Life")
+                (dict "tag" "love" "emoji" "❤️" "text" "Relationships")
+                (dict "tag" "education" "emoji" "🎓" "text" "Education")
+                (dict "tag" "health" "emoji" "🏥" "text" "Health")
+            }}
+            {{ range $categories }}
+            <div class="col-6 col-md-4 col-lg-3">
+                <button class="category-card w-100" data-tag="{{ .tag }}">
+                    <span class="category-emoji">{{ .emoji }}</span>
+                    <span class="category-text">{{ .text }}</span>
+                </button>
+            </div>
+            {{ end }}
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    {{ partial "faq.html" . }}
+</main>
+{{ end }}

@@ -1,0 +1,11 @@
+baseURL = "https://arabiceg.com/"
+languageCode = "en-us"
+title = "ArabicEG.com"
+
+[params]
+    Description = "Learn daily-use Arabic phrases with English, Bangla, and Hindi translations. Fast, offline-first and PWA-ready."
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
