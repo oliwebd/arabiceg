@@ -1,35 +1,30 @@
-# ArabicEG.com
+# ArabicEG
 
-A mobile-friendly Hugo site for quickly searching and learning everyday Saudi Khaleeji Arabic phrases with translations for English, Bangla, Hindi, and Urdu.
+ArabicEG.com is a lightweight, multilingual phrasebook focused on instant phrase lookup for Gulf Arabic. The site is built with Hugo and ships as a mobile-first Progressive Web App (PWA) with offline caching.
 
 ## Features
-- 🔍 Instant, multilingual phrase search with category shortcuts.
-- 📱 Minimalistic, muted-color UI optimized for fast loading on mobile networks.
-- 🌓 Light/dark theme support with modern typography.
-- 🧭 Structured navigation for FAQs, recent searches, and key categories.
+- 🔎 Instant, multilingual search across Arabic, English, Bangla, Hindi, and Urdu with fuzzy matching
+- 🧭 Structured navigation with quick jumps to categories, recent searches, and FAQs
+- 🏷️ Category shortcuts for travel, food, emergency, work, and family phrases
+- 🌓 Light/dark theme toggle with muted, readable typography
+- 📲 PWA install prompt, manifest, and service worker caching core assets and translation data
+- ⭐ Favorites, recent searches, and language preference stored locally for fast reuse
 
-## Getting started
-1. Install [Hugo](https://gohugo.io/) extended.
-2. Clone the repository and install any theme assets:
-   ```bash
-   git clone https://example.com/arabiceg.git
-   cd arabiceg
-   ```
-3. Run a local development server:
+## Development
+1. Install [Hugo](https://gohugo.io/getting-started/installing/) (extended edition).
+2. Run the local server:
    ```bash
    hugo server -D
    ```
-4. Build the static site for production:
+3. Build the static site:
    ```bash
-   hugo --minify
+   hugo
    ```
 
-## Project structure
-- `content/` – Markdown content, including FAQs and legal pages.
-- `layouts/` – Templates and partials for pages, headers, and footers.
-- `assets/css/` – Custom styles compiled by Hugo Pipes.
-- `static/` – Static assets (icons, manifest, etc.).
+## Structure
+- `layouts/` – page and partial templates for the search experience
+- `assets/css/` – primary theme styles
+- `static/` – PWA assets (manifest, icons, service worker)
+- `content/` – markdown pages (policies, contact, etc.)
 
-## Notes
-- The UI uses a calm, modern palette to keep screens easy on the eyes.
-- PWA metadata (manifest and icons) is already configured; ensure assets remain in `static/` when updating.
+Contributions and issue reports are welcome.
