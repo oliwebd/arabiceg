@@ -278,37 +278,60 @@ async function loadDataAndInit() {
 }
 
 // --- Category Cards Initialization ---
+function browseByTag(tagValue, label = '') {
+    if (!isDataLoaded || !allPhrasesData || allPhrasesData.length === 0) {
+        notyf.error('Data not loaded yet. Please wait...');
+        return;
+    }
+
+    if (searchBox) searchBox.value = '';
+
+    filteredResults = allPhrasesData.filter(item => {
+        return item.tags && Array.isArray(item.tags) && item.tags.includes(tagValue);
+    });
+
+    currentPage = 1;
+    displaySearchResults(filteredResults.slice(0, RESULTS_PER_PAGE));
+
+    if (label) {
+        notyf.success(`Browsing "${label}"`);
+    }
+
+    smoothScrollToResults();
+}
+
 function initCategoryCards() {
-    console.log('Initializing category cards...');
-    
     const categoryCards = document.querySelectorAll('.category-card');
     categoryCards.forEach(card => {
         card.addEventListener('click', () => {
             const tagValue = card.dataset.tag;
-            console.log(`Category card clicked: ${tagValue}`);
-            
-            if (!isDataLoaded || !allPhrasesData || allPhrasesData.length === 0) {
-                console.error('No data available');
-                notyf.error('Data not loaded yet. Please wait...');
-                return;
-            }
-            
-            if (searchBox) searchBox.value = '';
-            
-            filteredResults = allPhrasesData.filter(item => {
-                return item.tags && Array.isArray(item.tags) && item.tags.includes(tagValue);
-            });
-            
-            console.log(`Found ${filteredResults.length} results for tag: ${tagValue}`);
-            
-            currentPage = 1;
-            displaySearchResults(filteredResults.slice(0, RESULTS_PER_PAGE));
-            notyf.success(`Browsing "${tagValue}" category`);
-            smoothScrollToResults();
+            browseByTag(tagValue, `${tagValue} category`);
         });
     });
-    
-    console.log(`Initialized ${categoryCards.length} category cards`);
+}
+
+function initCategoryShortcuts() {
+    const shortcuts = document.querySelectorAll('.category-shortcuts .shortcut');
+    shortcuts.forEach(button => {
+        button.addEventListener('click', () => {
+            const tagValue = button.dataset.tag;
+            browseByTag(tagValue, `${tagValue} phrases`);
+        });
+    });
+}
+
+function initQuickNav() {
+    document.querySelectorAll('.nav-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+            const targetId = chip.dataset.scroll;
+            if (targetId) {
+                const targetEl = document.querySelector(targetId);
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
 }
 
 // --- Favorites Toggle Buttons ---
@@ -351,7 +374,7 @@ if (searchBox) {
     searchBox.addEventListener('input', (e) => {
         const query = e.target.value.trim();
         clearTimeout(searchTimeout);
-        
+
         if (query.length < 2) {
             filteredResults = allPhrasesData;
             currentPage = 1;
@@ -362,7 +385,7 @@ if (searchBox) {
         if (spinner) spinner.style.display = 'block';
         searchTimeout = setTimeout(() => {
             performSearch(query);
-        }, 700);
+        }, 250);
     });
 }
 
@@ -372,7 +395,20 @@ function filterData(query) {
     const queryWords = lowerCaseQuery.split(/\s+/).filter(word => word.length > 0);
 
     return allPhrasesData.filter(item => {
-        const searchableText = `${item.arabic} ${item.english} ${item.english_p} ${item.tags ? item.tags.join(' ') : ''}`.toLowerCase();
+        const searchableParts = [
+            item.arabic,
+            item.english,
+            item.english_p,
+            item.bangla,
+            item.bangla_p,
+            item.hindi,
+            item.hindi_p,
+            item.urdu,
+            item.urdu_p,
+            item.tags ? item.tags.join(' ') : ''
+        ].filter(Boolean);
+
+        const searchableText = searchableParts.join(' ').toLowerCase();
         return queryWords.every(word => searchableText.includes(word));
     });
 }
@@ -387,7 +423,20 @@ function fuzzyFilterData(query) {
     const fuzzyRegex = new RegExp(fuzzyPattern, 'i');
 
     return allPhrasesData.filter(item => {
-        const searchableText = `${item.arabic} ${item.english} ${item.english_p} ${item.tags ? item.tags.join(' ') : ''}`.toLowerCase();
+        const searchableParts = [
+            item.arabic,
+            item.english,
+            item.english_p,
+            item.bangla,
+            item.bangla_p,
+            item.hindi,
+            item.hindi_p,
+            item.urdu,
+            item.urdu_p,
+            item.tags ? item.tags.join(' ') : ''
+        ].filter(Boolean);
+
+        const searchableText = searchableParts.join(' ').toLowerCase();
         return fuzzyRegex.test(searchableText);
     });
 }
@@ -670,19 +719,22 @@ if ('serviceWorker' in navigator) {
 document.addEventListener('DOMContentLoaded', () => {
     initLanguageSelection();
     displayRecentSearches();
+    initQuickNav();
+    initCategoryShortcuts();
     loadDataAndInit();
 });
 </script>
 
 <script>
-  const langSelect = document.getElementById('languageSelect');
+const langSelect = document.getElementById('languageSelect');
 
-  function updateVisibleLanguage(lang) {
-    document.querySelectorAll('.lang-section').forEach(section => {
-      section.classList.toggle('d-none', section.dataset.lang !== lang);
-    });
-  }
+function updateVisibleLanguage(lang) {
+  document.querySelectorAll('.lang-section').forEach(section => {
+    section.classList.toggle('d-none', section.dataset.lang !== lang);
+  });
+}
 
+if (langSelect) {
   document.addEventListener('DOMContentLoaded', () => {
     const savedLang = localStorage.getItem('preferred-language') || 'english';
     langSelect.value = savedLang;
@@ -694,10 +746,11 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('preferred-language', selectedLang);
     updateVisibleLanguage(selectedLang);
 
-    if (typeof notyfQueue !== 'undefined' && typeof notyfQueue.show === 'function') {
+    if (typeof notyf !== 'undefined' && typeof notyf.success === 'function') {
       notyf.success(`✅  Preference saved: ${selectedLang.toUpperCase()}`);
     } else {
       console.log(`Language preference saved: ${selectedLang.toUpperCase()}`);
     }
   });
+}
 </script>
