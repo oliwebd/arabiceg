@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
 
     {{ $title := .Title }}
     {{ with .Site.Title }}
@@ -63,6 +65,19 @@
     <main id="main-content">
         {{ block "main" . }}{{ end }}
     </main>
+
+    <div id="installBanner" class="pwa-banner" role="status" aria-live="polite">
+        <div class="pwa-banner__content">
+            <div>
+                <div class="pwa-banner__title">Install ArabicEG</div>
+                <p class="pwa-banner__text">Keep phrases offline for faster access on mobile.</p>
+            </div>
+            <div class="pwa-banner__actions">
+                <button id="installBtn" class="btn btn-primary btn-sm">Install</button>
+                <button id="dismissBanner" class="btn btn-outline-secondary btn-sm" aria-label="Dismiss install banner">Dismiss</button>
+            </div>
+        </div>
+    </div>
 
     {{ partial "footer.html" . }}
 
